@@ -1,9 +1,3 @@
-volumes:
-  neo4j_data:
-
-networks:
-  majo-red: 
-    driver: bridge
 services:
   neon-neo4j:
     image: neo4j:latest
@@ -11,9 +5,12 @@ services:
     restart: always
     environment:
       - NEO4J_AUTH=${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+      - RETRIES=3
+      - NEO4J_LANGUAGE=${NEO4J_LANGUAGE}
     ports:
-      - "7474:7474"
+      - "8090:7474"
       - "7687:7687"
+      - "6508:2000"
     volumes:
       - neo4j_data:/data
     networks:
@@ -33,3 +30,11 @@ services:
       - neon-neo4j
     networks:
       - majo-red 
+   
+volumes:
+  neo4j_data:
+
+networks:
+  majo-red: 
+    driver: bridge
+  
